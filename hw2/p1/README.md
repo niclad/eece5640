@@ -25,6 +25,8 @@ Using the command `bash$ make time` will compile the program that sets an eating
 Running the code follows a similar format as compiling. To run the default program, use `bash$ ./dining`. For the priority and time programs, run `bash$ ./priority` and `bash$ ./time`, respectively.
 
 ## Output
+Output shows the state of each philosopher as it changes. So a philosopher can be thinking, eating, or done eating (putting down the forks).
+
 An example output is presented below for an input of 5 philosophers:
 ```
 -bash-4.2$ ./dining
