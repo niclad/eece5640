@@ -23,3 +23,29 @@ Using the command `bash$ make time` will compile the program that sets an eating
 
 ## Running code
 Running the code follows a similar format as compiling. To run the default program, use `bash$ ./dining`. For the priority and time programs, run `bash$ ./priority` and `bash$ ./time`, respectively.
+
+## Output
+An example output is presented below for an input of 5 philosophers:
+```
+-bash-4.2$ ./dining
+DINING PHILOSOPHERS
+Number of philosophers: 5
+Philosopher 2 of 5 is thinking.
+Philosopher 4 of 5 is thinking.
+Philosopher 5 of 5 is thinking.
+Philosopher 1 of 5 is thinking.
+Philosopher 3 of 5 is thinking.
+Philosopher 2 of 5 is EATING with forks 2 and 3.
+```
+The output is folded for brevity, though the output looks similar.
+```
+Philosopher 2 of 5 is thinking.
+Philosopher 3 of 5 is EATING with forks 3 and 4.
+PHILOSOPHERS ARE FINISHING.
+Philosopher 5 of 5 is done EATING. Freeing forks 5 and 1.
+Philosopher 1 of 5 is EATING with forks 1 and 2.
+Philosopher 3 of 5 is done EATING. Freeing forks 3 and 4.
+Philosopher 4 of 5 is EATING with forks 4 and 5.
+Philosopher 1 of 5 is done EATING. Freeing forks 1 and 2.
+Philosopher 4 of 5 is done EATING. Freeing forks 4 and 5.
+```
