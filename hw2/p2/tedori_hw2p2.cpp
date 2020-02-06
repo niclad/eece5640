@@ -1,13 +1,14 @@
 // prime threads test
-
+#include <algorithm>
+#include <chrono>
+#include <climits>
+#include <cmath>
+#include <ctime>
+#include <fstream>
 #include <iostream>
 #include <iomanip>
-#include <ctime>
-#include <chrono>
-#include <random>
-#include <cmath>
 #include <pthread.h>
-#include <climits>
+#include <random>
 #include <sstream>
 #include <string>
 
@@ -26,6 +27,7 @@ int NUM_PRIMES = 0;     // the number of primes found so far (so far, 0 primes f
 pthread_mutex_t lock;   // lock, really only used for testing (so far)
 int IDX_PER_THREAD;     // INDICES to sort through PER a thread
 int NUM_PER_THREAD;     // NUMBERS to check for primality PER a thread
+ofstream PRIME_FILE;    // file to save prime numbers to
 
 /**
  * @brief Fill an array with chars of val "1"
@@ -49,16 +51,29 @@ char* FillArray(int fillSize) {
  * 
  * @param primeResults 
  */
-void FindPrimes(int*& primeResults) {
+void FindPrimes(int*& primeResults, bool saveFile) {
     primeResults[0] = 2;
     int primeIndex = 1;
 
-    for(int i = 1; i <= MAX_PRIMES; i++) {
-        if(PRIME_TEST[i]) {
-            primeResults[primeIndex] = ((i - 1) * 2) + 3;
-            primeIndex++;
-        }
-    }     
+    if(saveFile) {
+        PRIME_FILE << NUM_PRIMES << " found up to " << UPPER_LIMIT 
+            << " on " << NUM_THREADS << " threads.\n";
+        for(int i = 1; i <= MAX_PRIMES; i++) {
+            if(PRIME_TEST[i]) {
+                primeResults[primeIndex] = ((i - 1) * 2) + 3;
+                PRIME_FILE << primeResults[primeIndex] << endl;
+                primeIndex++;
+            }
+        }  
+    } else {
+        for(int i = 1; i <= MAX_PRIMES; i++) {
+            if(PRIME_TEST[i]) {
+                primeResults[primeIndex] = ((i - 1) * 2) + 3;
+             primeIndex++;
+            }
+        }  
+    }
+       
 }
 
 /**
@@ -334,6 +349,9 @@ chrono::high_resolution_clock::time_point SetLap() {
     return chrono::high_resolution_clock::now();
 }
 
+
+bool checkAnswer(string& respose, bool& result);
+void setGlobalVars();
 int main() {
 
     cout << "Prime Listing" << endl;
@@ -351,16 +369,27 @@ int main() {
     //cin >> NUM_THREADS;
     //cout << endl;
 
-    IDX_PER_THREAD = (MAX_PRIMES+1) / NUM_THREADS;          // number of segments each thread is tasked with
-    NUM_PER_SEG = UPPER_LIMIT / sqrt(UPPER_LIMIT);          // amount of numbers allocated per segment
-    NUM_PER_THREAD = IDX_PER_THREAD * 2;  // the numbers allocated to each thread
-    // UNUSED, OLD CODE: // NUM_PER_SEG * (sqrt(UPPER_LIMIT) / NUM_THREADS); UPPER_LIMIT / NUM_THREADS;
-    OFFSET = MAX_PRIMES % NUM_THREADS;
-    NUM_OFFSET = (MAX_PRIMES + 1) % NUM_THREADS;            // left over numbers that will be excluded based on sectioning algorithm
-    PRIME_TEST = FillArray(MAX_PRIMES+1);           // prime number status 1 = prime, 0 = not-prime
+    setGlobalVars();
 
-    cout << "IDX_OFFSET = " << OFFSET << endl;
-    cout << "NUM_OFFSET = " << NUM_OFFSET << endl;
+    //cout << "IDX_OFFSET = " << OFFSET << endl;      // set the global variables
+    //cout << "NUM_OFFSET = " << NUM_OFFSET << endl;
+
+    // ask user if they want the output to be saved to a file
+    string saveAnswer;
+    bool saveFile = false;
+    
+    /*
+    cout << "Save output to a text file? [y/n]: ";
+    while (cin >> saveAnswer && !checkAnswer(saveAnswer, saveFile)) {
+        cout << "Invalid response: " << saveAnswer << ". Try again\n"
+            << "Save output to a text file? [y/n]: ";
+    }
+    */
+
+    // open the file
+    if (saveFile) {
+        PRIME_FILE.open("prime_output.txt");
+    }
 
     chrono::high_resolution_clock::time_point tStart = SetLap();    // start timing
 //==============================================================
@@ -385,7 +414,7 @@ int main() {
 
     int *primeResults = new int[NUM_PRIMES];    // the list to hold prime numbers as INTEGERS
     if(NUM_PRIMES > 0) {    // if any primes have been found, calculate them
-        FindPrimes(primeResults);
+        FindPrimes(primeResults, saveFile);
     }
     PrintPrimes(primeResults);  // print the results
 
@@ -402,4 +431,46 @@ int main() {
     cout << fixed << setprecision(4) << "Time to calculate primes: "
          << chrono::duration<double>(tEnd - tStart).count()
          << " seconds." << endl;
+    
+    PRIME_FILE << fixed << setprecision(4) << "Time to calculate primes: "
+         << chrono::duration<double>(tEnd - tStart).count()
+         << " seconds." << endl;
+
+    // close the text file
+    if (PRIME_FILE.is_open()) {
+        PRIME_FILE.close();
+    }
+}
+
+/**
+ * @brief check to see if a response is valid
+ * 
+ */
+bool checkAnswer(string& response, bool& result) {
+    // set input to all lower
+    transform(response.begin(), response.end(), response.begin(), 
+        [](unsigned char x){return ::tolower(x);});
+    
+    // determine if the response is correct
+    bool validResponse = (response == "y") || (response == "n")
+        || (response == "yes") || (response == "no");
+    
+    // determine if the result is "yes"
+    result = validResponse && (response[0] == 'y');
+    
+    return validResponse;
+}
+
+/**
+ * @brief set global variables
+ * 
+ */
+void setGlobalVars() {
+    IDX_PER_THREAD = (MAX_PRIMES+1) / NUM_THREADS;          // number of segments each thread is tasked with
+    NUM_PER_SEG = UPPER_LIMIT / sqrt(UPPER_LIMIT);          // amount of numbers allocated per segment
+    NUM_PER_THREAD = IDX_PER_THREAD * 2;  // the numbers allocated to each thread
+    // UNUSED, OLD CODE: // NUM_PER_SEG * (sqrt(UPPER_LIMIT) / NUM_THREADS); UPPER_LIMIT / NUM_THREADS;
+    OFFSET = MAX_PRIMES % NUM_THREADS;
+    NUM_OFFSET = (MAX_PRIMES + 1) % NUM_THREADS;            // left over numbers that will be excluded based on sectioning algorithm
+    PRIME_TEST = FillArray(MAX_PRIMES+1);           // prime number status 1 = prime, 0 = not-prime
 }
