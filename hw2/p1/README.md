@@ -6,7 +6,7 @@ This code will run the dining philosophers problem for a number of philosophers 
 All code is written in C++, parallelized with pthreads (_not_ C++11's `std::thread`). Makefile is provided. Compile with `bash$ make`.
 
 ### Code versions
-[tedori_hw2p1.cpp](./tedori_hw2p1.cpp) will have philosophers think and eat for random durations.
+[tedori_hw2p1.cpp](./tedori_hw2p1.cpp) will have philosophers think and eat for random durations. Allows an even number of philosophers (forks).
 
 [tedori_hw2p1_priority.cpp](./tedori_hw2p1_priority.cpp) gives priotity to one philosopher over the others.
 

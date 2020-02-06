@@ -124,6 +124,10 @@ void *philosophize(void *aPhilo) {
     return NULL;
 }
 
+/**
+ * @brief Initialize the philosophers as threads and forks as mutexes.
+ * 
+ */
 void initialize() {
     // get the number of philosophers
     int numPhilosophers;
@@ -168,6 +172,8 @@ void initialize() {
 
     sleep(40);
     RUNNING = 0;
+
+    // join threads
     cout << "PHILOSOPHERS ARE FINISHING." << endl;
     for (int i = 0; i < numPhilosophers; i++) {
         philo = &philosophers[i];

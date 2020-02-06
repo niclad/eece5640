@@ -111,6 +111,10 @@ void *philosophize(void *aPhilo) {
     return NULL;
 }
 
+/**
+ * @brief Initialize the philosophers as threads and forks as mutexes.
+ * 
+ */
 void initialize() {
     // get the number of philosophers
     int numPhilosophers;
@@ -130,7 +134,7 @@ void initialize() {
     Philosopher philosophers[numPhilosophers];
     Philosopher *philo;
 
-    // initialize mutexes
+    // initialize mutexes (forks)
     for (int i = 0; i < numPhilosophers; i++) {
         int failed = pthread_mutex_init(&forks[i], NULL);
 
@@ -140,6 +144,7 @@ void initialize() {
         }
     }
 
+    // initialize threads (philosophers)
     for (int i = 0; i < numPhilosophers; i++) {
         philo = &philosophers[i];
         philo->id = i;
@@ -151,6 +156,8 @@ void initialize() {
 
     sleep(40);
     RUNNING = 0;
+
+    // join the threads
     cout << "PHILOSOPHERS ARE FINISHING." << endl;
     for (int i = 0; i < numPhilosophers; i++) {
         philo = &philosophers[i];
@@ -162,8 +169,6 @@ void initialize() {
     }
 }
 
-// main func
 int main() {
-    /* DO STUFF */
     initialize();
 }
