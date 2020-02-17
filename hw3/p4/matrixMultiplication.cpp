@@ -47,7 +47,7 @@ int* matMult(int mat[][M], int vec[]) {
         result[i] = element;
     }
 
-    return result;
+    //return result;
 }
 
 int main() {
