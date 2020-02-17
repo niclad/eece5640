@@ -1,4 +1,5 @@
 // OpenMP matrix multiplication
+// Nicolas Tedori
 
 #include <omp.h>
 #include <iostream>
