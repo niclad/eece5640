@@ -35,7 +35,7 @@ int* matMult(int mat[][M], int vec[]) {
     cout << msg;
 
     
-    //#pragma omp parallel for shared(result, mat, vec) reduction(+: element)
+    #pragma omp parallel for shared(result, mat, vec) reduction(+: element)
     for (int i = 0; i < M; i++) {
         element = 0;
         //#pragma omp parallel for shared(mat, vec) reduction(+: element)
