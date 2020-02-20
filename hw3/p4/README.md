@@ -11,5 +11,7 @@ OpenMP vector-matrix multiplication. This program uses OpenMP to parallely multi
 ## Compiling
 Use the Makefile to compile the C++ files described above. `$ make` will compile tedori_hw3p4.cpp and make a file named `matrix_mult`. `$ make reduction` will compile tedori_hw3p4_reduc.cpp and make a file named `matrix_reduc`.
 
+See the Makefile for more information about compilation settings. Note, however, that all
+
 ## Running 
-The files require no input and will run in bash using `$ ./<file_name>`.
+The files require no input and will run in bash using `$ ./<file_name>`. Both files will print the maximum threads available and which threads are running. `matrix_reduc` will output all the threads in the reduction; this the makes the output quite verbose.
