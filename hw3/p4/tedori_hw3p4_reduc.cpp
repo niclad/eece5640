@@ -30,18 +30,14 @@ int* matMult(int mat[][M], int vec[]) {
     result = initVect(true);
     string msg;
     int element;
- 
-    int threadID = omp_get_thread_num();    // get the thread running this section
-    msg = "Thread: " + to_string(threadID) + "\n";
-    cout << msg;
-
     
     //#pragma omp parallel for shared(result, mat, vec) reduction(+: element)
     for (int i = 0; i < M; i++) {
         element = 0;
-        //#pragma omp parallel for shared(mat, vec) reduction(+: element)
+        #pragma omp parallel for shared(mat, vec) reduction(+: element)
         for (int j = 0; j < M; j++) {
-            msg = "thread" + to_string(omp_get_thread_num()) + "\n";
+            int threadID = omp_get_thread_num();    // get the thread running this section
+            msg = "Thread: " + to_string(threadID) + "\n";
             cout << msg;
             element += mat[j][i] * vec[j];
         }
@@ -70,7 +66,7 @@ int main() {
     // fill vector
     vect = initVect(false);
 
-    #pragma omp parallel
+    //#pragma omp parallel
     result = matMult(matrix, vect);
 
     cout << "Resulting vector" << endl;
