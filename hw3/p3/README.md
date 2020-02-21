@@ -1,5 +1,5 @@
 # Homework 3, Problem 3
-OpenMP vector-matrix multiplication. This program uses OpenMP to parallely multiply a vector by a matrix. There are two versions: one that runs the multiplication function on multiple threads and another that uses OpenMP reduction for the element calculation loops.
+OpenMP and pthreads Dining Philosophers implementation and comparison. This program uses OpenMP to time and run the Dining Philosophers problem. Same for pthreads. The code included is different than in homework 2 - the code is altered so that operations are similar and to allowing for accurate timing.
 
 ## Files
 [Makefile](./Makefile) Used to compile the C++ code files [tedori_hw3p3_omp.cpp](./tedori_hw3p_omp.cpp) and [tedori_hw3p3_pthread.cpp](./tedori_hw3p3_pthread.cpp).
