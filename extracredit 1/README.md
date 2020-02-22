@@ -24,4 +24,4 @@ The execution time for non-optimized dense matrix multiplication is ~1191.22ms. 
 The execution time for non-optimized sparse matrix multiplication is ~893.86ms. The execution time for the optimized sparse matrix multiplication ~637.08ms. This makes the speed-up for [M-M-sparse.c](M-M.c) ~1.40X.
 
 ## Running
-Run the files in bash with `$ ./<output_file_name>`. See Files for more information. Output will show values for multiplication results to confirm success, as well as running time (in milliseconds). No input for the files is required.
+Run the files in bash with `$ ./<output_file_name>`. See [Files](https://github.com/niclad/eece5640/tree/master/extracredit%201#files) for more information. Output will show values for multiplication results to confirm success, as well as running time (in milliseconds). No input for the files is required.
