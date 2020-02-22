@@ -37,32 +37,21 @@ main(int argc, char **argv)
     start = CLOCK();
 
 /* This is the only portion of the code you should modify to improve performance. */
-    float tempA, tempB;
-    for (i =0; i<M; i++) {
-        for (j=0; j<M; j++) {
-            sum = 0;
-            for (k=0; k<M; k++) {
-                if ((i+k)%7 != 0)
-                    continue;
-                    
-                if ((k/3)+(j/5) == 0)
-                    continue;
 
-                sum += a[i][k] * b[k][j];
-            }
-            c[i][j] += sum;
-        }
-    }
+    for (i =0; i<M; i++)
+     for (j=0; j<M; j++)
+       for (k=0; k<M; k++)
+        c[i][j] += a[i][k] * b[k][j];
 
-   finish = CLOCK();
-   /* End timing */
-   total = finish - start;
-   printf("Time for the loop = %f\n", total);
-   printf("The value of c[%d][%d] = %4.2f\n", 0, 0, c[0][0]);
-   printf("The value of c[%d][%d] = %4.2f\n", 31, 32, c[31][32]);
-   printf("The value of c[%d][%d] = %4.2f\n", 510, 0, c[510][0]);
-   printf("The value of c[%d][%d] = %4.2f\n", 511, 511, c[511][511]);
+    finish = CLOCK();
+/* End timing */
+    total = finish - start;
+    printf("Time for the loop = %f\n", total);
+    printf("The value of c[%d][%d] = %4.2f\n", 0, 0, c[0][0]);
+    printf("The value of c[%d][%d] = %4.2f\n", 31, 32, c[31][32]);
+    printf("The value of c[%d][%d] = %4.2f\n", 510, 0, c[510][0]);
+    printf("The value of c[%d][%d] = %4.2f\n", 511, 511, c[511][511]);
 
-   return 0;
+    return 0;
 }
 

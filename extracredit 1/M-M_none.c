@@ -37,24 +37,10 @@ main(int argc, char **argv)
 
 /* This is the only portion of the code you should modify to improve performance. */
 
-    int B = 8;
-    int l = 64;
-    en = B * l;
-    float tempA, tempB;
-    for (kk = 0; kk < en; kk += B) {
-        for (jj = 0; jj < en; jj += B) {
-           for (i = 0; i < M; i++) {
-               for (j = jj; j < jj + B; j++) {
-                    sum = 0;
-                    for (k = kk; k < kk + B; k++){
-                        sum += a[j][k] * b[k][i];
-                    }
-                    c[i][j] += sum;
-                }
-            }
-        }
-    }    
-    
+     for (i =0; i<M; i++)
+       for (j=0; j<M; j++)
+         for (k=0; k<M; k++)
+            c[i][j] += a[i][k] * b[k][j];
     finish = CLOCK();
 /* End timing */
     total = finish - start;
