@@ -19,6 +19,10 @@ This code optimizes dense and sparse matrix multiplication. Everything needed to
 ## Speed-up
 These timing were recorded on the COE **Eta** machines.
 
+|**CPU**|Intel Xeon CPU X5650 @ 2.67GHz; 6 cores/socket, 2 sockets; 24 hardware threads |
+|**Memory**|L1i/d sizes of 32 KB ea., L2 of 256 KB, L3 of 12.3 MB. 49 GB RAM|
+|**OS**| CentOS 7.4|
+
 The execution time for non-optimized dense matrix multiplication is ~1191.22ms. The execution time for the optimized dense matrix multiplication ~665.67ms. This makes the speed-up for [M-M.c](M-M.c) ~1.68X.
 
 The execution time for non-optimized sparse matrix multiplication is ~893.86ms. The execution time for the optimized sparse matrix multiplication ~637.08ms. This makes the speed-up for [M-M-sparse.c](M-M.c) ~1.40X.
