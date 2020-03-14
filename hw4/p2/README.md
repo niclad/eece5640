@@ -53,7 +53,9 @@ An example output for the command `bash$ sbatch execute.sh`, where `execute.sh` 
 mpirun --mca btl_base_warn_component_unused 0 ./binning 100000 4 10
 ```
 
-Output:
+The running time is only for the time required for the nodes to bin. Not to generate the numbers or other facets of the program.
+
+The output of `sbatch execute.sh`:
 ```
 Num processes: 4
 N: 100000
