@@ -15,7 +15,7 @@ To run the program, the executable requires a commandline input for the number o
 
 This program is run on the Discovery cluster using Slurm. As such, the number of processes is set using `sbatch` or `srun`.
 
-To run using `srun`, the following command can be used: `bash$ srun --pty --export=ALL --nodes=1 --tasks-per-node=<number_of_tasks> mpirun --mca btl_base_warn_component_unused 0 ./tedori_hw4p1 <number_of_darts>`. For the purposes of my own experiments, I tested the execution for `<number_of_task>` = {4, 8, 16, 24}.
+To run using `srun`, the following command can be used: `bash$ srun --pty --export=ALL --nodes=1 --tasks-per-node=<number_of_tasks> mpirun --mca btl_base_warn_component_unused 0 ./tedori_hw4p1 <number_of_darts>`. For the purposes of my own experiments, I tested the execution for {`<number_of_task>` | 4, 8, 16, 24}.
 
 See [Slurm](https://slurm.schedmd.com/overview.html) for more information on executing with `srun` or `sbatch`.
 
