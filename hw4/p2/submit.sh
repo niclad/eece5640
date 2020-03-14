@@ -7,4 +7,4 @@
 #SBATCH --output=test.out
 #SBATCH --time=7:30
 
-mpirun --mca btl_base_warn_component_unused 0 ./binning 1000 1 10
+mpirun --mca btl_base_warn_component_unused 0 ./tedori_hw4p2a 1000 1 10
