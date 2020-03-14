@@ -50,7 +50,7 @@ An example output for the command `bash$ sbatch execute.sh`, where `execute.sh` 
 #SBATCH --output=test.out
 #SBATCH --time=7:30
 
-mpirun --mca btl_base_warn_component_unused 0 ./binning 100000 4 10
+mpirun --mca btl_base_warn_component_unused 0 ./tedori_hw4p2a 100000 4 10
 ```
 
 The running time is only for the time required for the nodes to bin. Not to generate the numbers or other facets of the program.
