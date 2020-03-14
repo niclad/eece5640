@@ -17,21 +17,22 @@
 using namespace std;
 
 typedef mt19937 rng;    // Mersenne Twister engine (more random than rand())
-double CIRCLE = 1.0;
+double CIRCLE = 1.0;    // circle radius
 
 double randNum(rng generator);
-void getInput(int argc, char *argv[], int rank, long *totalTosses);
+void getInput(int argc, char *argv[], int rank, long *totalDarts);
 double errorCalc(double piEst);
-long toss(long procTosses, int rank);
+long toss(long procDarts, int rank);
 bool circleTest(double x, double y);
+double CLOCK();
 
 int main(int argc, char *argv[])
 {
     int rank;   // calling process ID
     int size;   // number of processes
 
-    long totalTosses;   // total tosses
-    long procTosses;    // total tosses for the process
+    long totalDarts;   // total tosses
+    long procDarts;    // total tosses for the process
     long procCircle;    // number in circle for process
     long totalCircle;   // total in circle
 
@@ -50,13 +51,17 @@ int main(int argc, char *argv[])
         cout << "Num processes: " << size << endl;
     }
 
-    getInput(argc, argv, rank, &totalTosses);   // get the input values
+    getInput(argc, argv, rank, &totalDarts);   // get the input values
 
-    procTosses = totalTosses / size;    // tosses per process
+    procDarts = totalDarts / size;    // tosses per process
+    if (rank == 0) {
+        cout << "Darts per process: " << procDarts << endl;
+    }
 
     MPI_Barrier(MPI_COMM_WORLD);    // sync processes for the sake of timing
     start = MPI_Wtime();    // get start time
-    procCircle = toss(procTosses, rank);
+    //start = CLOCK();    // end timing
+    procCircle = toss(procDarts, rank);
     end = MPI_Wtime();      // get end time
     locElapsed = end - start;
     cout << rank << " time: " << locElapsed << endl;
@@ -65,12 +70,14 @@ int main(int argc, char *argv[])
 
     // get the total number of tosses that landed in the circle for all processes
     MPI_Reduce(&procCircle, &totalCircle, 1, MPI_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+    //end = CLOCK();  // end timing
 
     if (rank == 0)
     {
+        //elapsed = (end - start) / 1000;     // calculate elapsed time in seconds
         cout << "totalCircle: " << totalCircle << endl;
-        cout << "totalTosses: " << totalTosses << endl;
-        piEst = (4 * totalCircle) / ((double) totalTosses); // get pi
+        cout << "totalDarts: " << totalDarts << endl;
+        piEst = (((double) totalCircle) / ((double) totalDarts)) * 4;   // get pi
         piErr = errorCalc(piEst);   // calculate the percentage error in estimation
         cout << "Running time: " << elapsed << " seconds" << endl;
         cout << fixed << setprecision(16) << "Pi estimation: " << piEst << "..." << endl;
@@ -98,26 +105,26 @@ double randNum(rng generator)
  * @param argc 
  * @param argv 
  * @param rank 
- * @param totalTosses 
+ * @param totalDarts 
  */
-void getInput(int argc, char *argv[], int rank, long *totalTosses)
+void getInput(int argc, char *argv[], int rank, long *totalDarts)
 {
     if (rank == 0)
     {
         if (argc != 2)
         {
             cout << "Error, not enough inputs" << endl;
-            *totalTosses = 0;
+            *totalDarts = 0;
         } else {
-            *totalTosses = atoi(argv[1]);
+            *totalDarts = atoi(argv[1]);
         }
     }
 
     // send all processes the total number of tosses
-    MPI_Bcast(totalTosses, 1, MPI_LONG, 0, MPI_COMM_WORLD);
+    MPI_Bcast(totalDarts, 1, MPI_LONG, 0, MPI_COMM_WORLD);
 
     // end program because user wanted estimation from no tosses
-    if (*totalTosses == 0)
+    if (*totalDarts == 0)
     {
         MPI_Finalize();
         cout << "No tosses defined." << endl;
@@ -142,29 +149,27 @@ double errorCalc(double piEst)
 /**
  * @brief Simulate tosses for each process
  * 
- * @param procTosses 
+ * @param procDarts 
  * @param rank 
  * @return long 
  */
-long toss(long procTosses, int rank)
+long toss(long procDarts, int rank)
 {
     long numCirc = 0;
 
     double x, y;
 
-    unsigned int seed = (unsigned) time(NULL);  // generate seed from time
-    rng generate();  // create rng
-    srand(seed + rank);
-    for (long toss = 0; toss < procTosses; toss++)
+    srand48(time(NULL) + rank);
+    for (long toss = 0; toss < procDarts; toss++)
     {
         /*
         x = randNum(generate);
         y = randNum(generate);
         */
 
-        x = rand_r(&seed) / (double)RAND_MAX;
-        y = rand_r(&seed) / (double)RAND_MAX;
-        if ((x*x+y*y) <= 1.0)
+        x = (double)random()/RAND_MAX;;
+        y = (double)random()/RAND_MAX;;
+        if (circleTest(x, y))
         {
             numCirc++;
         }
@@ -182,5 +187,16 @@ long toss(long procTosses, int rank)
  */
 bool circleTest(double x, double y)
 {
-    return ((x * x) + (y * y)) <= 1.0;
+    return sqrt((x * x) + (y * y)) <= 1;
+}
+
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
+double CLOCK() {
+        struct timespec t;
+        clock_gettime(CLOCK_MONOTONIC,  &t);
+        return (t.tv_sec * 1000)+(t.tv_nsec*1e-6);
 }
