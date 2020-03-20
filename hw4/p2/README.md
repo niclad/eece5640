@@ -37,6 +37,30 @@ mpirun --mca btl_base_warn_component_unused 0 ./binning 1000 X 10
 
 See [Slurm](https://slurm.schedmd.com/overview.html) for more information on executing with `srun` or `sbatch`.
 
+## Run Settings
+For the slurm and command line inputs, the following tests were run
+
+### slurm setting `--nodes=1`
+`<amount_of_numbers>` is one of: 1000, 1000000, 10000000
+
+`<number_of_nodes>` = 1
+
+`<number_of_bins>` is one of: 10, 50
+
+### slurm setting `--nodes=2`
+`<amount_of_numbers>` is one of: 1000, 1000000, 10000000
+
+`<number_of_nodes>` = 2
+
+`<number_of_bins>` is one of: 10, 50
+
+### slurm setting `--nodes=4`
+`<amount_of_numbers>` is one of: 1000, 1000000, 10000000
+
+`<number_of_nodes>` = 4
+
+`<number_of_bins>` is one of: 10, 50
+
 ## Output
 An example output for the command `bash$ sbatch execute.sh`, where `execute.sh` is:
 
