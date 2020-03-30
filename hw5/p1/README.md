@@ -16,19 +16,19 @@ This program builds off of an older version of [tedori_hw5p1a.cpp](tedori_hw5p1a
 This file generates the author distribution with shows how many authors have how many co-authors.
 
 ### Misc. files
-1. [Makefile](Makefile): This compiles both of the above code files. See [running code]() to determine how to compile each file.
+1. [Makefile](Makefile): This compiles both of the above code files. See [running code](https://github.com/niclad/eece5640/tree/master/hw5/p1#running-code) to determine how to compile each file.
 2. [dblp-co-authors.txt](dblp-co-authors.txt): This is the author data. See the file for more information.
 3. [graphing.py](graphing.py): This generates a graph from the output data. See [author_data.txt](author_data.txt) for the output data and [mpi_dist.pdf](mpi_dist.pdf) for the resultant graph.
 4. [mpi_top_co-authors.out](mpi_top_co-authors.out): This is the slurm output for [tedori_hw5p1a.cpp](tedori_hw5p1a.cpp). (I.e., the console output for the program.)
 5. [mpi_graph.out](mpi_graph.out): This is the slurm output for [tedori_hw5p1b.cpp](tedori_hw5p1b.cpp). (I.e., the console output for the program.)
-6. [p1a.sh](p1a.sh) and [p1b.sh](p1b.sh): These are the `sbatch` script files. See [running code]() for more information.
+6. [p1a.sh](p1a.sh) and [p1b.sh](p1b.sh): These are the `sbatch` script files. See [running code](https://github.com/niclad/eece5640/tree/master/hw5/p1#running-code) for more information.
 
 ## Running code
 The codefile, `tedori_hw5p1a.cpp` and `tedori_hw5p1b.cpp` can be compiled using `bash$ make` and `bash$ make graph`, respectively. This will generate an executable with the same name as the code file, `tedori_hw5p1<a|b>`.
 
 These programs are run on the Discovery cluster using Slurm. As such, the number of processes is set using `sbatch` or `srun`.
 
-To run using `sbatch1`, [p1a.sh](p1a.sh) or [p1b.sh](p1b.sh) can be submitted to run the program in question. An output (`<some_name>.out`) file will be returned once the run is complete. See `*.out` files for examples.
+To run using `sbatch`, [p1a.sh](p1a.sh) or [p1b.sh](p1b.sh) can be submitted to run the program in question. An output (`<some_name>.out`) file will be returned once the run is complete. See `*.out` files for examples.
 
 See [Slurm](https://rc-docs.northeastern.edu/en/latest/using-discovery/usingslurm.html) for more information on executing with `srun` or `sbatch`.
 

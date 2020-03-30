@@ -1,49 +1,54 @@
-# Dart Board Method Pi Estimation
-Written by Nicolas Tedori. Due March 17, 2020 at 0800.
+# CUDA Author Statistics
+Written by Nicolas Tedori. Due April 03, 2020 at 0800.
 
-This program, written in C++, estimates the value of [Pi](https://en.wikipedia.org/wiki/Pi) using the dartboard method. This program prints the results and error (calculated using the C++ implementation of Pi) and the execution time of the program. This program esitmates pi concurrently using MPI.
+These programs, written in C++ and CUDA, use MPI to read a [file](dblp-co-authors.txt) containing author information and determine the authors with the most co-authors and graph the distribution of authors with a number of co-authors.
 
 ## Files
-1. [tedori_hw4p1.cpp](tedori_hw4p1.cpp): Pi estimation program
-2. [mpiPi.cpp](mpiPi.cpp): A Pi estimation using the same method, provided by Oak Ridge National Laboratory. More info from ORNL available [here](https://www.olcf.ornl.gov/tutorials/monte-carlo-pi/). This code has been altered to compare timing with [tedori_hw4p1.cpp](tedori_hw4p1.cpp).
-3. [Makefile](Makefile): Compiles [tedori_hw4p1.cpp](tedori_hw4p1.cpp). [mpiPi.cpp](mpiPi.cpp) is not compiled through this Makefile.
+The files in this directory
+
+### [tedori_hw5p2a.cu](tedori_hw5p1a.cu)
+This program reads the file listing the edges of authors. The program reads the file and generates the row index array (inline with [CSR](https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)))
+and counts the number of co-authors each author has. The operations in this program are functionally equivalent to those in [p1](../p1).
+
+### [tedori_hw5p2b.cu](tedori_hw5p2b.cu)
+This program builds off of the current version of [tedori_hw5p2a.cu](tedori_hw5p2a.cu). This file generates the author distribution with shows how many authors have how many co-authors. The operations in this program are functionally equivalent to those in [p1](../p1).
+
+### Misc. files
+1. [Makefile](Makefile): This compiles both of the above code files. See [running code](https://github.com/niclad/eece5640/tree/master/hw5/p2#running-code) to determine how to compile each file.
+2. [dblp-co-authors.txt](dblp-co-authors.txt): This is the author data. See the file for more information.
+3. [graphing.py](graphing.py): This generates a graph from the output data. See [author_data-cuda.txt](author_data-cuda.txt) for the output data and [cuda_dist.pdf](cuda_dist.pdf) for the resultant graph.
+4. [cuda_top_co-authors.out](cuda_top_co-authors.out): This is the slurm output for [tedori_hw5p2a.cu](tedori_hw5p2a.cu). (I.e., the console output for the program.)
+5. [cuda_graph.out](cuda_graph.out): This is the slurm output for [tedori_hw5p2b.cu](tedori_hw5p2b.cu). (I.e., the console output for the program.)
+6. [p2a.sh](p2a.sh) and [p2b.sh](p2b.sh): These are the `sbatch` script files. See [running code](https://github.com/niclad/eece5640/tree/master/hw5/p2#running-code) for more information.
 
 ## Running code
-The codefile, `tedori_hw4p1.cpp` can be compiled using `bash$ make`. This will generate an executable with the same name as the code file, `tedori_hw4p1`.
+The codefile, `tedori_hw5p2a.cpp` and `tedori_hw5p2b.cpp` can be compiled using `bash$ make` and `bash$ make graph`, respectively. This will generate an executable with the same name as the code file, `tedori_hw5p2<a|b>`. Note that to compile these files, `nvcc` must be installed which requires CUDA. These files were compiled with CUDA 9.0.
 
-To run the program, the executable requires a commandline input for the number of darts. So, when running this program, the command is `bash$ ./tedori_hw4p1 <number_of_darts>`, where `<number_of_darts>` is determined by the user. E.g. a value of `1000000000` for `<number_of_darts>` will produce a value of Pi ~3.1416 with an error of ~0.0019% (compared to `M_PI` in `cmath`).
+These programs are run on the Discovery cluster using Slurm. As such, the number of processes is set using `sbatch` or `srun`.
 
-This program is run on the Discovery cluster using Slurm. As such, the number of processes is set using `sbatch` or `srun`.
+To run using `sbatch`, [p1a.sh](p1a.sh) or [p1b.sh](p1b.sh) can be submitted to run the program in question. An output (`<some_name>.out`) file will be returned once the run is complete. See `*.out` files for examples.
 
-To run using `srun`, the following command can be used: `bash$ srun --pty --export=ALL --nodes=1 --tasks-per-node=<number_of_tasks> mpirun --mca btl_base_warn_component_unused 0 ./tedori_hw4p1 <number_of_darts>`. For the purposes of my own experiments, I tested the execution for {`<number_of_task>` | 4, 8, 16, 24} and {`<number_of_darts>` | 100000, 1000000, 100000000, 1000000000}.
-
-See [Slurm](https://slurm.schedmd.com/overview.html) for more information on executing with `srun` or `sbatch`.
+See [Slurm](https://rc-docs.northeastern.edu/en/latest/using-discovery/usingslurm.html) for more information on executing with `srun` or `sbatch`.
 
 ## Output
-An example output for the command `bash$ srun --pty --export=ALL --nodes=1 --tasks-per-node=16 mpirun --mca btl_base_warn_component_unused 0 ./piDarts 100000` is below:
+An example output for the command `sbatch p1b.sh` is below:
 
 ```
-Num processes: 16
-Darts per process: 6250
-15 time: 0.000298243
-1 time: 0.00029649
-3 time: 0.000295321
-5 time: 0.000298988
-6 time: 0.000295503
-7 time: 0.000295796
-9 time: 0.000297032
-11 time: 0.000301102
-12 time: 0.000299728
-13 time: 0.000299415
-14 time: 0.000296377
-10 time: 0.000300383
-0 time: 0.000300009
-2 time: 0.000299703
-4 time: 0.000299774
-8 time: 0.000314103
-totalCircle: 79280
-totalDarts: 100000
-Running time: 0.000314103 seconds
-Pi estimation: 3.1711999999999998...
-Error (using M_PI): 0.94243%
+GPU: Tesla K80: 3.7
+Lines processed: 1049866
+File read time: 0.847428 sec
+GPU author count time: 0.000274836 sec
+Max co-auth. search time: 0.00659489 sec
+auth  3336, count 343
+auth  3345, count 296
+auth   167, count 290
+auth 14690, count 269
+auth 13941, count 264
+auth 30095, count 244
+auth 13842, count 230
+auth   865, count 227
+auth  3298, count 225
+auth 13811, count 221
+Total running time: 0.854298 sec
+
 ```
