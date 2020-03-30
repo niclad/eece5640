@@ -1,0 +1,19 @@
+NUM. PROCESSES: 4
+UNIQUE AUTHORS PER PROC: 79270
+AUTHORS PER PROCESS: 524933
+Count time: 0.00816222 sec
+Top authors time: 0.00279976 sec
+Dist time: 0.000464488 sec
+Total running time: 1 sec
+first 10 dists
+43181
+58858
+49657
+35130
+25544
+18378
+13704
+10375
+8371
+6601
+Data saved as "author_data.txt"

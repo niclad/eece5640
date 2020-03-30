@@ -1,0 +1,20 @@
+GPU: Tesla K80: 3.7
+Lines processed: 1049866
+File read time: 0.948763 sec
+GPU author count time: 0.000213144 sec
+Max co-auth. search time: 0.00660888 sec
+GPU data generation time: 9.87434e-06 sec
+First 10 distribution values:
+43181
+58856
+49659
+35130
+25544
+18378
+13704
+10375
+8371
+6601
+Last: 1
+Data saved as "author_data-cuda.txt"
+Total running time: 0.955595 sec
