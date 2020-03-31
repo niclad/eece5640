@@ -1,6 +1,10 @@
-# Homework 4
-Written by Nicolas Tedori. Due March 13, 2020 at 0800.
+# Homework 5
+Written by Nicolas Tedori. Due April 03, 2020 at 0800.
 
-[p1](./p1) Pi [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) estimate using the [dart board method](https://stackoverflow.com/questions/1556518/finding-pi-value-using-dart-board-method). 
+To see detailed information about each problem, see their respective read-mes. [1](./p1/README.md), [2](./p2/README.md)
 
-[p2](./p2) *to be added*
+#### [p1](./p1)
+Collect author statistics using MPI.
+
+#### [p2](./p2)
+Collect author statistics using CUDA.
