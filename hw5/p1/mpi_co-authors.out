@@ -1,10 +1,12 @@
 NUM. PROCESSES: 4
 UNIQUE AUTHORS PER PROC: 79270
-ELEMENTS PER PROCESS: 79270
-Lines processed: 1049866
-MPI count time: 0.000541568 sec
-MPI topAuth time: 0.000541568 sec
-Exe. time for all MPI calls: 0.00108314 sec
+In-file lines processed: 1049866
+MPI count time: 0.000440378 sec
+MPI topAuth time: 0.0024089 sec
+MPI volume time: 0.000485934 sec
+***************************
+FINAL RESULTS:
+Exe. time for all MPI calls: 0.00333522 sec
 Top 10 authors with most co-authors:
 AuthID:  3336, co-authors: 343
 AuthID:  3345, co-authors: 296
@@ -16,3 +18,15 @@ AuthID: 13842, co-authors: 230
 AuthID:   865, co-authors: 227
 AuthID:  3298, co-authors: 225
 AuthID: 13811, co-authors: 221
+first 10 dists
+43181
+58856
+49659
+35130
+25544
+18378
+13704
+10375
+8371
+6601
+Data saved as "author_data.txt"
